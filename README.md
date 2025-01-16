@@ -28,7 +28,7 @@
 ## 참고
 https://kminito.tistory.com/108
 ```bash
-pip install gTTS SpeechRecognition langchain langchain-community langchain-openai langchain-chroma PyAudio playsound==1.2.2 pydub
+pip install gTTS SpeechRecognition langchain langchain-community langchain-openai langchain-chroma PyAudio pydub pygame
 ```
 
 
