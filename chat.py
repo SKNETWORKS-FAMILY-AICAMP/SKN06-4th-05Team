@@ -103,7 +103,7 @@ if __name__ == "__main__":
         elif num == 2:
             query = input("질문을 입력하세요(종료: exit) > ")
         
-        if query == "exit" or "종료료":
+        if query == "exit" or "종료":
             break
         elif len(query) > 3:
             break
