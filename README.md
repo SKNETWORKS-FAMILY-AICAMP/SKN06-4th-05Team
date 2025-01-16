@@ -2,7 +2,7 @@
 
 # 산출물
 ## 1. 소스 코드
-###   Django Application 구현 코드
+    - Django Application 구현 코드
 ## 2. 보고서
 ###   팀원 소개 - 팀원명과 담당업무
 ###   프로젝트 소개
