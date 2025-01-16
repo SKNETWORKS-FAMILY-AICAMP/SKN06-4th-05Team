@@ -26,6 +26,10 @@
 ### ✔ 개발 기간                                                  
 2025. 1.17 ~ 2025. 1.18 (총 2일)
 
+```bash
+pip install gTTS SpeechRecognition langchain langchain-community langchain-openai langchain-chroma PyAudio playsound==1.2.2 pydub
+```
+
 
 # 산출물
 ## 1. 소스 코드

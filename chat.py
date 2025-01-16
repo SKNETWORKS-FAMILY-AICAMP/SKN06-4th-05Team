@@ -4,6 +4,8 @@ from glob import glob
 
 from gtts import gTTS
 from playsound import playsound
+from pydub import AudioSegment
+from pydub.effects import speedup
 import speech_recognition as sr
 
 from langchain_chroma import Chroma
@@ -72,9 +74,11 @@ def TTS(query):
     text = qna(query)
     tts = gTTS(text=text, lang='ko')
     tts.save("tts.mp3")
+    audio = AudioSegment.from_mp3("tts.mp3")
+    new_file = speedup(audio, 1.3, 150)
+    new_file.export("ftts.mp3", format="mp3")
     print(text)
-    playsound('tts.mp3')
-
+    playsound('ftts.mp3')
 
 def STT():
     recognizer = sr.Recognizer()
