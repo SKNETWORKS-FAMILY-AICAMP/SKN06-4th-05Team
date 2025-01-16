@@ -2,8 +2,8 @@ import re
 import os
 from glob import glob
 
+import pygame
 from gtts import gTTS
-from playsound import playsound
 from pydub import AudioSegment
 from pydub.effects import speedup
 import speech_recognition as sr
@@ -76,7 +76,12 @@ def TTS(query):
     new_file = speedup(audio, 1.3, 150)
     new_file.export("ftts.mp3", format="mp3")
     print(text)
-    playsound('ftts.mp3')
+    pygame.mixer.init()
+    pygame.mixer.music.load('ftts.mp3')
+    pygame.mixer.music.play()
+
+    while pygame.mixer.music.get_busy():
+        pygame.time.Clock().tick(10)
 
 def STT():
     recognizer = sr.Recognizer()
