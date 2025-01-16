@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* 배경 이미지를 화면 전체에 적용하기 위해 설정 */
+        }
+
+        /* 전체 배경 설정 */
+        body {
+        background-image: url("{% static 'imgs/background.png' %}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            max-width: 70%;
+            margin: 10px auto;
+            overflow-y: auto;
+            height: calc(100vh - 250px);
+            border-radius: 10px;
+        }
+
+        .message {
+            padding: 10px 15px;
+            border-radius: 15px;
+            max-width: 70%;
+            overflow-wrap: break-word;
+        }
+
+        .left {
+            align-self: flex-start;
+            background-color: #fef4e8;
+        }
+
+        .right {
+            align-self: flex-end;
+            background-color: #fef4e8;
+            color: rgb(2, 2, 2);
+        }
+
+        .chat-input {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* 투명한 흰색 배경 */
+            border-radius: 20px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+        }
+
+        .chat-input button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>채팅</h1>
+    </header>
+    <!-- 채팅 창 -->
+    <div class="chat-container"></div>
+
+    <!-- 메세지 입력 필드 -->
+    <div class="chat-input">
+        <input type="text" placeholder="메시지를 입력하세요." id="chat_input"/>
+        <button id="send_btn">전송</button>
+    </div>
+
+    <script type="text/javascript">
+        function sendMessage() {
+            let message = document.getElementById('chat_input').value;
+            if (!message) {
+                alert('메시지를 입력하세요.');
+                return;
+            }
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/chat_message/' + message, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    let data = JSON.parse(xhr.responseText);
+                    let chatContainer = document.querySelector('.chat-container');
+                    let userMessage = document.createElement('div');
+                    userMessage.className = 'message right';
+                    userMessage.innerText = message;
+                    chatContainer.appendChild(userMessage);
+
+                    let aiMessage = document.createElement('div');
+                    aiMessage.className = 'message left';
+                    aiMessage.innerText = data.response;
+                    chatContainer.appendChild(aiMessage);
+
+                    document.getElementById('chat_input').value = '';
+                } else {
+                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                }
+            };
+            xhr.send();
+        }
+
+        document.getElementById('send_btn').addEventListener('click', sendMessage);
+        document.getElementById('chat_input').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
