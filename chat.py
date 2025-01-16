@@ -53,8 +53,6 @@ def qna(query):
         인물의 이름 :
         시대 :
         인물에 대해 알고 싶은 것 :
-             
-        출처:
     {context}"""),
             ("human", "{question}"),
         ]
