@@ -6,148 +6,147 @@
     <title>Document</title>
     {% load static %}
     <style>
-    @font-face {
-        font-family: 'yy';
-        src: url("{% static 'fonts/ChosunCentennial_ttf.ttf' %}") format('truetype');
-    }
+        @font-face {
+            font-family: 'yy';
+            src: url("{% static 'fonts/ChosunCentennial_ttf.ttf' %}") format('truetype');
+        }
 
-    body, html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        font-family: 'yy', sans-serif;
-    }
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'yy', sans-serif;
+        }
 
-    body {
-        background-image: url("{% static 'imgs/background.png' %}");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
+        body {
+            background-image: url("{% static 'imgs/background.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
 
-    header {
-        text-align: center;
-        margin-bottom: 30px;
-        padding: 20px 0;
-        position: sticky;
-        top: 0;
-        width: 100%;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+        }
 
-    .chat-container {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
-        max-width: 70%;
-        margin: 10px auto;
-        overflow-y: auto;
-        height: calc(100vh - 250px);
-        font-family: 'yy', sans-serif;
-    }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 10px;
+            max-width: 70%;
+            margin: 10px auto;
+            overflow-y: auto;
+            height: calc(100vh - 250px);
+            font-family: 'yy', sans-serif;
+        }
 
-    .message {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 10px 15px;
-        max-width: 70%;
-        border-radius: 15px;
-        font-family: 'yy', sans-serif;
-        position: relative;
-    }
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 15px;
+            max-width: 70%;
+            border-radius: 15px;
+            font-family: 'yy', sans-serif;
+            position: relative;
+        }
 
-    .left {
-        align-self: flex-start;
-        display: flex;
-        align-items: center;
-    }
+        .left {
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+        }
 
-    .left .profile img {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
+        .left .profile img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-    .left .content {
-        background-color: #fef4e8;
-        padding: 10px;
-        border-radius: 10px;
-        max-width: 100%;
-        overflow-wrap: break-word;
-        margin-left: 10px;
-        font-size: 18px; /* AI 응답 글씨 크기 */
-    }
+        .left .content {
+            background-color: #fef4e8;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 100%;
+            overflow-wrap: break-word;
+            margin-left: 10px;
+            font-size: 18px;
+        }
 
-    .left .megaphone-icon {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: -60px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-    }
+        .left .megaphone-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -60px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
 
-    .right {
-        align-self: flex-end;
-        background-color: #fef4e8;
-        color: rgb(0, 0, 0);
-        padding: 10px;
-        border-radius: 15px;
-        font-family: 'yy', sans-serif;
-        font-size: 18px; /* 사용자 질문 글씨 크기 */
-    }
+        .right {
+            align-self: flex-end;
+            background-color: #fef4e8;
+            color: rgb(0, 0, 0);
+            padding: 10px;
+            border-radius: 15px;
+            font-family: 'yy', sans-serif;
+            font-size: 18px;
+        }
 
-    .chat-input {
-        position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 70%;
-        padding: 10px;
-        display: flex;
-        gap: 20px;
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 20px;
-        align-items: center;
-    }
+        .chat-input {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            padding: 10px;
+            display: flex;
+            gap: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            align-items: center;
+        }
 
-    .chat-input input {
-        flex: 1;
-        padding: 10px;
-        border: 1px solid #fef4e8;
-        border-radius: 20px;
-        font-family: 'yy', sans-serif;
-    }
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #fef4e8;
+            border-radius: 20px;
+            font-family: 'yy', sans-serif;
+        }
 
-    .chat-input button {
-        padding: 0;
-        border: none;
-        border-radius: 20px;
-        background-color: transparent;
-        background-image: url("{% static 'imgs/3.png' %}");
-        background-size: contain;
-        background-repeat: no-repeat;
-        cursor: pointer;
-        width: 30px;
-        height: 30px;
-    }
+        .chat-input button {
+            padding: 0;
+            border: none;
+            border-radius: 20px;
+            background-color: transparent;
+            background-image: url("{% static 'imgs/3.png' %}");
+            background-size: contain;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+        }
 
-    .chat-input img {
-        width: 25px;
-        height: 25px;
-        cursor: pointer;
-        margin-right: auto; /* 왼쪽으로 배치 */
-    }
+        .chat-input img {
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            margin-right: auto;
+        }
 
-    #error_message {
-        color: rgb(74, 124, 233);
-        text-align: center;
-        margin-top: 10px;
-    }
-
+        #error_message {
+            color: rgb(74, 124, 233);
+            text-align: center;
+            margin-top: 10px;
+        }
     /* 화살표 스타일 */
     .arrow-buttons {
         position: absolute;
@@ -177,58 +176,88 @@
     <div id="error_message"></div>
     <div class="chat-container"></div>
     <div class="chat-input">
-        <img src="{% static 'imgs/4.png' %}" alt="Static Icon" onclick="return false;"/>
+        <img src="{% static 'imgs/4.png' %}" alt="Static Icon" id="voice_button" style="cursor: pointer;"/>
         <input type="text" placeholder="채팅을 입력해주시오." id="chat_input"/>
         <button id="send_btn"></button>
     </div>
     <script>
+        function startSpeechRecognition() {
+            const errorMessage = document.getElementById('error_message');
+            errorMessage.innerText = '';
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                errorMessage.innerText = '이 브라우저는 음성 인식을 지원하지 않습니다.';
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'ko-KR';
+            recognition.interimResults = false;
+
+            recognition.onstart = function () {
+                errorMessage.innerText = '음성 인식 중...';
+            };
+
+            recognition.onspeechend = function () {
+                recognition.stop();
+            };
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('chat_input').value = transcript;
+                errorMessage.innerText = '';
+            };
+
+            recognition.onerror = function (event) {
+                errorMessage.innerText = `음성 인식 오류: ${event.error}`;
+            };
+
+            recognition.start();
+        }
+
         function sendMessage() {
-            let message = document.getElementById('chat_input').value;
-            let errorMessage = document.getElementById('error_message');
+            const message = document.getElementById('chat_input').value;
+            const errorMessage = document.getElementById('error_message');
             if (!message) {
                 errorMessage.innerText = '모르는게 생기면 질문을 해주시오.';
                 return;
             }
-            errorMessage.innerText = ''; // 오류 메시지 초기화
+            errorMessage.innerText = '';
 
-            let xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/chat_message/' + message, true);
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/chat_message/' + encodeURIComponent(message), true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
-                    let data = JSON.parse(xhr.responseText);
-                    let chatContainer = document.querySelector('.chat-container');
+                    const data = JSON.parse(xhr.responseText);
+                    const chatContainer = document.querySelector('.chat-container');
 
-                    // 사용자 메시지
-                    let userMessage = document.createElement('div');
+                    const userMessage = document.createElement('div');
                     userMessage.className = 'message right';
                     userMessage.innerText = message;
                     chatContainer.appendChild(userMessage);
 
-                    // AI 메시지
-                    let aiMessage = document.createElement('div');
+                    const aiMessage = document.createElement('div');
                     aiMessage.className = 'message left';
                     aiMessage.innerHTML = `
                         <div class="profile">
                             <img src="{% static 'imgs/6.png' %}" alt="AI 프로필">
                         </div>
-                        <div class="content">
-                            <span>${data.response}</span>
-                        </div>
+                        <div class="content">${data.response}</div>
                         <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="return false;"/>
                     `;
                     chatContainer.appendChild(aiMessage);
 
                     document.getElementById('chat_input').value = '';
-
-                    // 자동 스크롤
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
-                alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
                 }
             };
             xhr.send();
         }
 
+        document.getElementById('voice_button').addEventListener('click', startSpeechRecognition);
         document.getElementById('send_btn').addEventListener('click', sendMessage);
         document.getElementById('chat_input').addEventListener('keydown', function (event) {
             if (event.key === 'Enter') {
