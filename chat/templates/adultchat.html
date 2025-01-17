@@ -7,15 +7,15 @@
     {% load static %}
     <style>
     @font-face {
-        font-family: 'JSArirang';
-        src: url("{% static 'fonts/JSArirang.ttf' %}") format('truetype');
+        font-family: 'yy';
+        src: url("{% static 'fonts/ChosunCentennial_ttf.ttf' %}") format('truetype');
     }
 
     body, html {
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: 'JSArirang', sans-serif;
+        font-family: 'yy', sans-serif;
     }
 
     body {
@@ -43,7 +43,7 @@
         margin: 10px auto;
         overflow-y: auto;
         height: calc(100vh - 250px);
-        font-family: 'JSArirang', sans-serif;
+        font-family: 'yy', sans-serif;
     }
 
     .message {
@@ -53,7 +53,7 @@
         padding: 10px 15px;
         max-width: 70%;
         border-radius: 15px;
-        font-family: 'JSArirang', sans-serif;
+        font-family: 'yy', sans-serif;
         position: relative;
     }
 
@@ -96,7 +96,7 @@
         color: rgb(0, 0, 0);
         padding: 10px;
         border-radius: 15px;
-        font-family: 'JSArirang', sans-serif;
+        font-family: 'yy', sans-serif;
         font-size: 18px; /* 사용자 질문 글씨 크기 */
     }
 
@@ -119,7 +119,7 @@
         padding: 10px;
         border: 1px solid #fef4e8;
         border-radius: 20px;
-        font-family: 'JSArirang', sans-serif;
+        font-family: 'yy', sans-serif;
     }
 
     .chat-input button {
@@ -219,8 +219,11 @@
                     chatContainer.appendChild(aiMessage);
 
                     document.getElementById('chat_input').value = '';
+
+                    // 자동 스크롤
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
-                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
                 }
             };
             xhr.send();
