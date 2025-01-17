@@ -26,8 +26,11 @@
             margin: 0;
             padding: 0;
             background-image: url('{% static "imgs/background2.png" %}');
-            background-size: cover;
-            background-position: center;
+            height: 100vh; /* 화면 높이를 100%로 설정 */
+            width: 100vw; /* 화면 너비를 100%로 설정 */
+            background-size: 100% 100%; /* 이미지 비율을 무시하고 테두리에 맞춤 */
+            background-position: center; /* 이미지를 중앙에 배치 */
+            background-repeat: no-repeat; /* 이미지 반복 제거 */
             font-family: 'MyCustomFont2', sans-serif;
         }
         .container {

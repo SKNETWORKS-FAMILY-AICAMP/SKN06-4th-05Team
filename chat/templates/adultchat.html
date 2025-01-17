@@ -54,6 +54,7 @@
         max-width: 70%;
         border-radius: 15px;
         font-family: 'JSArirang', sans-serif;
+        position: relative;
     }
 
     .left {
@@ -79,6 +80,16 @@
         font-size: 18px; /* AI 응답 글씨 크기 */
     }
 
+    .left .megaphone-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -60px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+
     .right {
         align-self: flex-end;
         background-color: #fef4e8;
@@ -100,6 +111,7 @@
         gap: 20px;
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 20px;
+        align-items: center;
     }
 
     .chat-input input {
@@ -123,26 +135,34 @@
         height: 30px;
     }
 
+    .chat-input img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        margin-right: auto; /* 왼쪽으로 배치 */
+    }
+
     #error_message {
         color: rgb(74, 124, 233);
         text-align: center;
         margin-top: 10px;
     }
+
     /* 화살표 스타일 */
     .arrow-buttons {
-            position: absolute;
-            top: 5%; /* 상단에 배치 */
-            left: 3%; 
-            width: 90%;
-            display: flex;
-            justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
-            padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
-        }
+        position: absolute;
+        top: 5%; /* 상단에 배치 */
+        left: 3%; 
+        width: 90%;
+        display: flex;
+        justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
+        padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
+    }
 
-        .arrow-buttons img {
-            width: 50px; /* 화살표 이미지 크기 조정 */
-            height: auto;
-        }
+    .arrow-buttons img {
+        width: 50px; /* 화살표 이미지 크기 조정 */
+        height: auto;
+    }
 
     </style>
 </head>
@@ -153,9 +173,11 @@
     <!-- 화살표 버튼들 -->
     <div class="arrow-buttons">
         <a href="{% url 'intro2' %}"><img src="{% static 'imgs/8.png' %}" alt="Previous"></a>
+    </div>
     <div id="error_message"></div>
     <div class="chat-container"></div>
     <div class="chat-input">
+        <img src="{% static 'imgs/4.png' %}" alt="Static Icon" onclick="return false;"/>
         <input type="text" placeholder="채팅을 입력해주시오." id="chat_input"/>
         <button id="send_btn"></button>
     </div>
@@ -192,6 +214,7 @@
                         <div class="content">
                             <span>${data.response}</span>
                         </div>
+                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="return false;"/>
                     `;
                     chatContainer.appendChild(aiMessage);
 

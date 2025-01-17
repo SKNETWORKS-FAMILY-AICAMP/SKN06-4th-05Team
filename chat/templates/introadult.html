@@ -25,10 +25,12 @@
 
         /* 전체 배경 설정 */
         body {
-            background-image: url("{% static 'imgs/background2.png' %}");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
+            background-image: url('{% static "imgs/background2.png" %}');
+            height: 100vh; /* 화면 높이를 100%로 설정 */
+            width: 100vw; /* 화면 너비를 100%로 설정 */
+            background-size: 100% 100%; /* 이미지 비율을 무시하고 테두리에 맞춤 */
+            background-position: center; /* 이미지를 중앙에 배치 */
+            background-repeat: no-repeat; /* 이미지 반복 제거 */
         }
 
         /* 캐릭터 이미지 설정 */
