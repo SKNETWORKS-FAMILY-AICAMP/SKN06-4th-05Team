@@ -129,12 +129,30 @@
         margin-top: 10px;
     }
 
+    .arrow-buttons {
+            position: absolute;
+            top: 5%; /* 상단에 배치 */
+            left: 3%; 
+            width: 90%;
+            display: flex;
+            justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
+            padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
+        }
+
+        .arrow-buttons img {
+            width: 50px; /* 화살표 이미지 크기 조정 */
+            height: auto;
+        }
+
     </style>
 </head>
 <body>
     <header>
         <h1>나랏말삼이</h1>
     </header>
+    <!-- 화살표 버튼들 -->
+    <div class="arrow-buttons">
+        <a href="{% url 'intro1' %}"><img src="{% static 'imgs/8.png' %}" alt="Previous"></a>
     <div id="error_message"></div>
     <div class="chat-container"></div>
     <div class="chat-input">
