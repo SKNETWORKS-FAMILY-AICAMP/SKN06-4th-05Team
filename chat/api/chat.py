@@ -17,7 +17,7 @@ load_dotenv()
 
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 0
-MODEL_NAME  = 'gpt-4o'
+MODEL_NAME  = 'gpt-4o-mini'
 EMBEDDING_NAME = 'text-embedding-3-large'
 COLLECTION_NAME = 'korean_history'
 PERSIST_DIRECTORY= 'vector_store/korean_history_db'
@@ -28,7 +28,7 @@ vector_store = Chroma(collection_name=COLLECTION_NAME, persist_directory=PERSIST
 retriever = vector_store.as_retriever(search_type="mmr")
 
 def adprom():
-    '''성인인 prompt'''
+    '''성인 prompt'''
     prompt_template = ChatPromptTemplate([
             ("ai", """
         너는 한국사에 대해서 해박한 지식을 가진 역사전문가야.
@@ -259,7 +259,7 @@ def chprom():
             변환: 안녕! 나는 고양이 6마리 키워.
 
             원문장: 올해로 열일곱이야.
-            변환: 올해로 열일곱인것이오!
+            변환: 올해로 열입곱이야.
 
             원문장: 네, TV에도 여러 번 나왔어요.
             변환: 응, TV에도 여러 번 나왔어.
