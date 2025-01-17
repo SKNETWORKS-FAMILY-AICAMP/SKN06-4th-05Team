@@ -19,8 +19,12 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='home.html')),
-    path('admin/', admin.site.urls),
+    path('', TemplateView.as_view(template_name='main.html'), name='main'),  # 기존 home.html
+    path('home/', TemplateView.as_view(template_name='home.html'), name='home'),  # 기존 home.html
+    path('intro1/', TemplateView.as_view(template_name='introkid.html'), name='intro1'),  # 추가된 introkid.html
+    path('intro2/', TemplateView.as_view(template_name='introadult.html'), name='intro2'),
+    path('chat1/', TemplateView.as_view(template_name='kidchat.html'), name='chat1'), 
+    path('chat2/', TemplateView.as_view(template_name='adultchat.html'), name='chat2'),
     path('api/', include('api.urls')),
 ]
 # http://127.0.0.1:8000
