@@ -7,7 +7,7 @@
     {% load static %}
     <style>
     @font-face {
-        font-family: 'HakgyoansimBadasseugi';
+        font-family: 'Hakgyoansim Badasseugi TTF B';
         src: url("{% static 'fonts/Hakgyoansim Badasseugi TTF B.ttf' %}") format('truetype');
     }
 
@@ -15,7 +15,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: 'HakgyoansimBadasseugi', sans-serif;
+        font-family: 'Hakgyoansim Badasseugi TTF B', sans-serif;
     }
 
     body {
@@ -43,7 +43,7 @@
         margin: 10px auto;
         overflow-y: auto;
         height: calc(100vh - 250px);
-        font-family: 'HakgyoansimBadasseugi', sans-serif;
+        font-family: 'Hakgyoansim Badasseugi TTF B', sans-serif;
     }
 
     .message {
@@ -53,7 +53,8 @@
         padding: 10px 15px;
         max-width: 70%;
         border-radius: 15px;
-        font-family: 'HakgyoansimBadasseugi', sans-serif;
+        font-family: 'Hakgyoansim Badasseugi TTF B', sans-serif;
+        position: relative;
     }
 
     .left {
@@ -79,13 +80,23 @@
         font-size: 18px; /* AI 응답 글씨 크기 */
     }
 
+    .left .megaphone-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -60px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+    }
+
     .right {
         align-self: flex-end;
         background-color: #fef4e8;
         color: rgb(0, 0, 0);
         padding: 10px;
         border-radius: 15px;
-        font-family: 'HakgyoansimBadasseugi', sans-serif;
+        font-family: 'Hakgyoansim Badasseugi TTF B', sans-serif;
         font-size: 18px; /* 사용자 질문 글씨 크기 */
     }
 
@@ -100,6 +111,7 @@
         gap: 20px;
         background-color: rgba(255, 255, 255, 0.9);
         border-radius: 20px;
+        align-items: center;
     }
 
     .chat-input input {
@@ -107,7 +119,7 @@
         padding: 10px;
         border: 1px solid #fef4e8;
         border-radius: 20px;
-        font-family: 'HakgyoansimBadasseugi', sans-serif;
+        font-family: 'Hakgyoansim Badasseugi TTF B', sans-serif;
     }
 
     .chat-input button {
@@ -123,26 +135,34 @@
         height: 30px;
     }
 
+    .chat-input img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+        margin-right: auto; /* 왼쪽으로 배치 */
+    }
+
     #error_message {
         color: rgb(74, 124, 233);
         text-align: center;
         margin-top: 10px;
     }
 
+    /* 화살표 스타일 */
     .arrow-buttons {
-            position: absolute;
-            top: 5%; /* 상단에 배치 */
-            left: 3%; 
-            width: 90%;
-            display: flex;
-            justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
-            padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
-        }
+        position: absolute;
+        top: 5%; /* 상단에 배치 */
+        left: 3%; 
+        width: 90%;
+        display: flex;
+        justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
+        padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
+    }
 
-        .arrow-buttons img {
-            width: 50px; /* 화살표 이미지 크기 조정 */
-            height: auto;
-        }
+    .arrow-buttons img {
+        width: 50px; /* 화살표 이미지 크기 조정 */
+        height: auto;
+    }
 
     </style>
 </head>
@@ -152,11 +172,13 @@
     </header>
     <!-- 화살표 버튼들 -->
     <div class="arrow-buttons">
-        <a href="{% url 'intro1' %}"><img src="{% static 'imgs/8.png' %}" alt="Previous"></a>
+        <a href="{% url 'intro2' %}"><img src="{% static 'imgs/8.png' %}" alt="Previous"></a>
+    </div>
     <div id="error_message"></div>
     <div class="chat-container"></div>
     <div class="chat-input">
-        <input type="text" placeholder="채팅을 입력해줘." id="chat_input"/>
+        <img src="{% static 'imgs/4.png' %}" alt="Static Icon" onclick="return false;"/>
+        <input type="text" placeholder="채팅을 입력해봐." id="chat_input"/>
         <button id="send_btn"></button>
     </div>
     <script>
@@ -164,7 +186,7 @@
             let message = document.getElementById('chat_input').value;
             let errorMessage = document.getElementById('error_message');
             if (!message) {
-                errorMessage.innerText = '궁금한게 생기면 물어봐줘.';
+                errorMessage.innerText = '궁금한게 있으면 설명해줘';
                 return;
             }
             errorMessage.innerText = ''; // 오류 메시지 초기화
@@ -187,11 +209,12 @@
                     aiMessage.className = 'message left';
                     aiMessage.innerHTML = `
                         <div class="profile">
-                            <img src="{% static 'imgs/7.png' %}" alt="AI 프로필">
+                            <img src="{% static 'imgs/6.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">
                             <span>${data.response}</span>
                         </div>
+                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="return false;"/>
                     `;
                     chatContainer.appendChild(aiMessage);
 
