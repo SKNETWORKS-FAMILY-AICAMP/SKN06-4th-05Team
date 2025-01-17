@@ -226,7 +226,7 @@
             errorMessage.innerText = '';
 
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/chat_message/' + encodeURIComponent(message), true);
+            xhr.open('GET', '/api/adchat_message/' + encodeURIComponent(message), true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
