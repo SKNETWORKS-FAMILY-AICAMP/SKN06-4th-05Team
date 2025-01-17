@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+    {% load static %}
+    <style>
+    @font-face {
+            font-family: 'MyCustomFont'; /* 원하는 이름 지정 */
+            src: url("{% static 'fonts/Hakgyoansim Badasseugi TTF B.ttf' %}") format('ttf'), 
+                url("{% static 'fonts/Hakgyoansim Badasseugi TTF B.ttf' %}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+    @font-face {
+        font-family: 'MyCustomFont2'; /* 원하는 이름 지정 */
+        src: url("{% static 'fonts/JSArirang.ttf' %}") format('ttf'), 
+            url("{% static 'fonts/JSArirang.ttf' %}") format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "imgs/background2.png" %}');
+            background-size: cover;
+            background-position: center;
+            font-family: 'MyCustomFont2', sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+        .title {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+        }
+        .content .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .content .item img.left-character {
+            position: absolute;
+            top: 35%; /* 상단 위치 조정 */
+            left: 2%; /* 좌측 위치 고정 */
+            width: 325px; /* 크기 설정 */
+        }
+        .content .item img.right-character {
+            position: absolute;
+            top: 14%; /* 상단 위치 조정 */
+            right: 2%; /* 우측 위치 고정 */
+            width: 410px; /* 크기 설정 *//
+        }
+        .book {
+            position: absolute;
+            bottom: 40%; /* 화면 하단에 배치 */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1.7px;
+        }
+        .book img.left-book {
+            width: 500px; /* 왼쪽 책의 크기 설정 */
+        }
+        .book img.right-book {
+            width: 500px; /* 오른쪽 책의 크기 설정 */
+        }
+        .text-box-left{
+            position: absolute;
+            font-size: 80px; /* 텍스트 크기 */
+            font-weight: bold;
+            color: black;
+            pointer-events: auto; /* 텍스트 박스 클릭 방지 */
+            font-family: 'MyCustomFont', sans-serif;
+        }
+        
+        .text-box-right {
+            position: absolute;
+            font-size: 90px; /* 텍스트 크기 */
+            font-weight: bold;
+            color: black;
+            pointer-events: auto; /* 텍스트 박스 클릭 방지 */
+            font-family: 'MyCustomFont2', sans-serif;
+        }
+        .text-box-left {
+            top: 40%; /* 왼쪽 텍스트 박스 상하 위치 */
+            left: 31.5%; /* 왼쪽 텍스트 박스 좌우 위치 */
+            transform: translate(-50%, -50%); /* 중앙 정렬 */
+        }
+        .text-box-right {
+            top: 40%; /* 오른쪽 텍스트 박스 상하 위치 */
+            right: 33.5%; /* 오른쪽 텍스트 박스 좌우 위치 */
+            transform: translate(50%, -50%); /* 중앙 정렬 */
+            z-index: 2;
+        }
+        .name-box {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 30px;
+        border: 2px solid black;
+        padding: 5px 20px;
+        background: white;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="name-box">이름:</div>
+        <div class="book">
+            <img src="{% static 'imgs/book.png' %}" alt="14세 미만" class="left-book">
+            <img src="{% static 'imgs/book.png' %}" alt="14세 이상" class="right-book">
+        </div>
+        <a href="{% url 'intro1' %}" class="text-link">
+            <div class="text-box-left">14세 미만</div>
+        </a>
+        <a href="{% url 'intro2' %}" class="text-link">
+            <div class="text-box-right">14세 이상</div>
+        </a>
+        <div class="content">
+            <div class="item">
+                <img src="{% static 'imgs/1.png' %}" alt="왼쪽 캐릭터" class="left-character">
+            </div>
+            <div class="item">
+                <img src="{% static 'imgs/2.png' %}" alt="오른쪽 캐릭터" class="right-character">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
