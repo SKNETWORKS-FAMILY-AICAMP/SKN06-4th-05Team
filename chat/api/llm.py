@@ -8,7 +8,7 @@ class Chatting:
     """
 
     def __init__(self):
-        self.adchain = chat.mkchain()
+        self.adchain = chat.mkchain(True, False)
         self.chchain = chat.mkchain(False, True)
 
     def send_message(self, query:str, isad=True, isch=False):
@@ -21,5 +21,8 @@ class Chatting:
         Returns:
             str: AI의 응답 메시지
         """
-        text = self.chchain.invoke({"question": query})
+        if isad:
+            text = self.adchain.invoke({"question": query})
+        elif isch:
+            text = self.chchain.invoke({"question": query})
         return text
