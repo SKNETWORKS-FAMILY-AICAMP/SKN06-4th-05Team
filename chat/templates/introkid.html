@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+
+    <style>
+        /* 글꼴 파일 경로 설정 */
+        @font-face {
+            font-family: 'MyCustomFont'; /* 원하는 이름 지정 */
+            src: url("{% static 'fonts/Hakgyoansim Badasseugi TTF B.ttf' %}") format('ttf'), 
+                url("{% static 'fonts/Hakgyoansim Badasseugi TTF B.ttf' %}") format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* 배경 이미지를 화면 전체에 적용하기 위해 설정 */
+            font-family: 'MyCustomFont', sans-serif; /* 지정한 폰트 사용 */
+        }
+
+        /* 전체 배경 설정 */
+        body {
+            background-image: url("{% static 'imgs/background2.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* 캐릭터 이미지 설정 */
+        .character {
+            position: absolute;
+            left: 80px; /* 화면의 좌측 */
+            top: 60%; /* 화면의 수직 가운데 */
+            transform: translateY(-50%);  /* 수직 가운데 정렬을 위해 이미지의 절반 높이만큼 위로 이동 */
+            width: 400px; /* 캐릭터 이미지 크기 조정 */
+            height: auto; /* 비율에 맞게 높이 자동 조정 */
+        }
+
+        /* 고정된 배경을 가진 말풍선 이미지 */
+        .speech-bubble-background {
+            position: absolute;
+            left: 450px; /* 캐릭터 오른쪽에 배치 */
+            top: 50%; /* 화면의 수직 가운데 */
+            transform: translateY(-50%);
+            width: 850px; /* 말풍선 너비 */
+            height: 500px; /* 말풍선 높이는 자동으로 설정 */
+            background-image: url("{% static 'imgs/book.png' %}"); /* 말풍선 배경 이미지 */
+            background-size: cover; /* 사진을 배경으로 꽉 채움 */
+            background-position: center; /* 사진의 중심을 기준으로 위치 */
+            padding: 50px; /* 여백 */
+            border-radius: 20px; /* 말풍선 모서리 둥글게 */
+        }
+
+        /* 책 이미지 흔들흔들 효과 */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .speech-bubble-background {
+            position: absolute;
+            left: 450px; /* 캐릭터 오른쪽에 배치 */
+            top: 10%; /* 화면의 수직 가운데 */
+            transform: translateY(-50%);
+            width: 850px; /* 말풍선 너비 */
+            height: 500px; /* 말풍선 높이는 자동으로 설정 */
+            background-image: url("{% static 'imgs/book.png' %}"); /* 말풍선 배경 이미지 */
+            background-size: cover; /* 사진을 배경으로 꽉 채움 */
+            background-position: center; /* 사진의 중심을 기준으로 위치 */
+            padding: 50px; /* 여백 */
+            border-radius: 20px; /* 말풍선 모서리 둥글게 */
+            animation: shake 1s ease-in-out infinite; /* 흔들흔들 애니메이션 적용 */
+        }
+
+        /* 텍스트가 들어갈 영역 */
+        .speech-bubble-text {
+            position: absolute;
+            left: 480px; /* 캐릭터 오른쪽에 배치 */
+            top: 50%; /* 화면의 수직 가운데 */
+            transform: translateY(-50%);
+            width: 700px; /* 텍스트 영역 너비 */
+            padding: 80px; /* 텍스트 여백 */
+            font-size: 30px; /* 텍스트 크기 */
+            color: #000000; /* 텍스트 색상 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        /* 텍스트 간의 위아래 여백을 줄이기 */
+        .speech-bubble-text p {
+            margin-top: 20px;  /* 위쪽 여백 */
+            margin-bottom: 20px;  /* 아래쪽 여백 */
+        }
+
+        /* 특정 문단 글씨 크게 하기 */
+        .large-text {
+            font-size: 60px;  /* 글씨 크기를 크게 설정 */
+        }
+
+        /* 화살표 스타일 */
+        .arrow-buttons {
+            position: absolute;
+            top: 5%; /* 상단에 배치 */
+            left: 3%; 
+            width: 90%;
+            display: flex;
+            justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
+            padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
+        }
+
+        .arrow-buttons img {
+            width: 50px; /* 화살표 이미지 크기 조정 */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 화살표 버튼들 -->
+    <div class="arrow-buttons">
+        <a href="{% url 'home' %}"><img src="{% static 'imgs/8.png' %}" alt="Previous"></a>
+        <a href="{% url 'chat' %}"><img src="{% static 'imgs/9.png' %}" alt="Next"></a>
+    </div>
+
+    <!-- 사람 캐릭터 이미지 -->
+    <img src="{% static 'imgs/1.png' %}" alt="Character" class="character">
+
+    <!-- 말풍선 배경 이미지 -->
+    <div class="speech-bubble-background"></div>
+
+    <!-- 텍스트 영역 -->
+    <div class="speech-bubble-text">
+        <!-- 텍스트 -->
+        <p class="large-text">친구야 같이 역사 공부하자<br>
+        모르는게 생기면 물어봐줘<br></p>
+        <p>나는 사건과 인물에 관해서 잘 알고 있어<br>
+        "이순신 장군님에 대해 알려줘", "1948년에 일어난 사건을 알려줘"와 같이 질문하면 돼</p>
+    </div>
+</body>
+</html>

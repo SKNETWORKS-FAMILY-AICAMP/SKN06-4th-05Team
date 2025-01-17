@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* 배경 이미지를 화면 전체에 적용하기 위해 설정 */
+            font-family: 'My CustomFont', sans-serif; /* 지정한 폰트 사용 */
+            overflow: hidden; /* 화면 밖 요소 숨김 */
+        }
+
+        /* 전체 배경 설정 */
+        body {
+            background-image: url("{% static 'imgs/main.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* 캐릭터 이미지 설정 */
+        .character {
+            position: absolute;
+            right: 200px; /* 화면의 우측 */
+            top: 63%; /* 화면의 수직 가운데 */
+            transform: translateY(-50%); /* 수직 가운데 정렬 */
+            width: 100px; /* 캐릭터 이미지 크기 조정 */
+            height: auto; /* 비율에 맞게 높이 자동 조정 */
+            animation: none; /* 기본 상태에선 애니메이션 없음 */
+        }
+
+        /* 캐릭터가 이동하며 사라지는 애니메이션 */
+        @keyframes fadeOutMove {
+            0% {
+                transform: translateY(-50%) translateX(0);
+                opacity: 1;
+            }
+            70% {
+                transform: translateY(-50%) translateX(-50vw); /* 중간쯤까지 이동 */
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-50%) translateX(-60vw); /* 약간 더 이동 */
+                opacity: 0; /* 완전히 사라짐 */
+            }
+        }
+
+        /* 걷는 애니메이션 적용 */
+        .character.walking {
+            animation: fadeOutMove 3s linear forwards; /* 3초 동안 애니메이션 실행 */
+        }
+
+        /* 배경 위에서 아래로 펼쳐지는 이미지 */
+        .background-reveal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30%;
+            height: 0; /* 시작 시 높이 0 */
+            background-image: url("{% static 'imgs/0.png' %}"); /* 펼쳐질 이미지 */
+            background-size: cover;
+            background-position: left;
+            transition: height 2s ease-out; /* 2초 동안 부드럽게 높이 변경 */
+            z-index: -1; /* 배경 이미지가 뒤에 위치하도록 설정 */
+        }
+
+        .background-reveal.show {
+            height: 100%; /* 이미지가 화면 전체를 덮음 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 사람 캐릭터 이미지 -->
+    <img src="{% static 'imgs/10.png' %}" alt="Character" class="character" id="character">
+
+    <!-- 배경 위에서 아래로 펼쳐지는 이미지 -->
+    <div class="background-reveal" id="backgroundReveal"></div>
+
+    <script>
+        // 캐릭터 클릭 이벤트
+        document.getElementById("character").addEventListener("click", function() {
+            // 걷는 애니메이션 및 사라짐 효과 추가
+            this.classList.add("walking");
+
+            // 배경 이미지가 펼쳐지도록 show 클래스 추가
+            document.getElementById("backgroundReveal").classList.add("show");
+
+            // 애니메이션이 끝난 후 home 페이지로 이동
+            setTimeout(function() {
+                window.location.href = "{% url 'home' %}"; // 다음 페이지로 이동
+            }, 3000); // 애니메이션 지속 시간 후 페이지 이동 (3초)
+        });
+    </script>
+    
+</body>
+</html>
