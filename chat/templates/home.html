@@ -59,13 +59,13 @@
         }
         .content .item img.left-character {
             position: absolute;
-            top: 35%; /* 상단 위치 조정 */
+            top: 33%; /* 상단 위치 조정 */
             left: 2%; /* 좌측 위치 고정 */
             width: 325px; /* 크기 설정 */
         }
         .content .item img.right-character {
             position: absolute;
-            top: 14%; /* 상단 위치 조정 */
+            top: 10%; /* 상단 위치 조정 */
             right: 2%; /* 우측 위치 고정 */
             width: 410px; /* 크기 설정 *//
         }
@@ -117,18 +117,14 @@
         left: 50%;
         transform: translateX(-50%);
         font-size: 30px;
-        border: 2px solid black;
         padding: 5px 20px;
-        background: white;
     }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="name-box">
-            <label for="name-input">이름: </label>
-            <input type="text" id="name-input" name="name" maxlength="10" placeholder="이름을 입력하세요.">
-        </div>
+        <div class="name-box">당신의 *나이를 선택하시오.</div>
+
         <div class="book">
             <img src="{% static 'imgs/book.png' %}" alt="14세 미만" class="left-book">
             <img src="{% static 'imgs/book.png' %}" alt="14세 이상" class="right-book">
