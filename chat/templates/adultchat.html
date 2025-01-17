@@ -219,8 +219,11 @@
                     chatContainer.appendChild(aiMessage);
 
                     document.getElementById('chat_input').value = '';
+
+                    // 자동 스크롤
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
-                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
                 }
             };
             xhr.send();
