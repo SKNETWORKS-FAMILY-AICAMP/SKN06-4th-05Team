@@ -73,7 +73,7 @@ pip install gTTS SpeechRecognition langchain langchain-community langchain-opena
     - 주요 기능 : 사용자 나이에 맞는 응답이 가능하다
 
 ###  요구사항 정의서
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%A0%95%EC%9D%98%EC%84%9C.jpg"/>
+<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%A0%95%EC%9D%98%EC%84%9C_re01.jpg"/>
 <br>
 
 ###  화면 설계서
