@@ -98,7 +98,7 @@ pip install -r requirements.txt
 
 
 ###  시스템 구성도
-
+![Image](https://github.com/user-attachments/assets/a2c6bd55-8fe4-4e87-a640-f63f7680fe7a)
 
 ###  테스트 계획서 및 테스트 결과 보고서
 <img src= "https://github.com/user-attachments/assets/2a5c7b3a-5028-4745-b8d8-575f62555e0d"/>
