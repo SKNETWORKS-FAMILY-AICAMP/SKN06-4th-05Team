@@ -22,6 +22,8 @@ pip install -r requirements.txt
 
 
 ## 갑진(甲辰) 파이브 ✋🏻
+
+
 ### 팀원소개
 <div align="center">
 
@@ -36,6 +38,8 @@ pip install -r requirements.txt
 
 ###   프로젝트 소개
         1. 주제
+
+
 ## 프로젝트 개요
 ✔ **목표**
    > 역사적 인물이나 사건에 대해 질문하면 대답하는 LLM 챗봇 개발
@@ -70,7 +74,10 @@ pip install -r requirements.txt
         - 주요 기능 : 사용자 나이에 맞는 응답이 가능하다
 
 
+
+
 ###  요구사항 정의서
+
 <img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%EC%A0%95%EC%9D%98%EC%84%9C_re01.jpg"/>
 <br>
 
@@ -86,3 +93,5 @@ pip install -r requirements.txt
 
 
 ###  테스트 계획서 및 테스트 결과 보고서
+
+
