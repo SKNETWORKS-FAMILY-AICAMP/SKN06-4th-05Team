@@ -181,6 +181,28 @@
         <button id="send_btn"></button>
     </div>
     <script>
+        let audio;
+        let isPlaying = false;
+        function toggleMessageAudio(url, imgElement) {
+            if (audio && isPlaying) {
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+                imgElement.src = "{% static 'imgs/5-1.png' %}";
+                return;
+            }
+
+            audio = new Audio(url);
+            audio.play();
+            isPlaying = true;
+            imgElement.src = "{% static 'imgs/5.png' %}";
+
+            audio.onended = () => {
+                isPlaying = false;
+                imgElement.src = "{% static 'imgs/5-1.png' %}";
+            };
+        }
+
         function startSpeechRecognition() {
             const errorMessage = document.getElementById('error_message');
             errorMessage.innerText = '';
@@ -244,7 +266,7 @@
                             <img src="{% static 'imgs/6.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
-                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.tts_url}')"/>
+                        <img src="{% static 'imgs/5-1.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="toggleMessageAudio('${data.tts_url}', this)"/>
                     `;
                     chatContainer.appendChild(aiMessage);
         
@@ -263,11 +285,6 @@
                 sendMessage();
             }
         });
-        function playMessageAudio(url) {
-            console.log("재생할 음성 파일 URL:", url);
-            const audio = new Audio(url);
-            audio.play();
-        }
     </script>
 </body>
 </html>

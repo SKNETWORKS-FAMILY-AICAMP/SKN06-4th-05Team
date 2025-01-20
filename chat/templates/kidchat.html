@@ -181,6 +181,28 @@
         <button id="send_btn"></button>
     </div>
     <script>
+        let audio;
+        let isPlaying = false;
+        function toggleMessageAudio(url, imgElement) {
+            if (audio && isPlaying) {
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+                imgElement.src = "{% static 'imgs/5-1.png' %}";
+                return;
+            }
+
+            audio = new Audio(url);
+            audio.play();
+            isPlaying = true;
+            imgElement.src = "{% static 'imgs/5.png' %}";
+
+            audio.onended = () => {
+                isPlaying = false;
+                imgElement.src = "{% static 'imgs/5-1.png' %}";
+            };
+        }
+
         function startSpeechRecognition() {
             const errorMessage = document.getElementById('error_message');
             errorMessage.innerText = '';
@@ -215,28 +237,28 @@
 
             recognition.start();
         }
-
         function sendMessage() {
             const message = document.getElementById('chat_input').value;
             const errorMessage = document.getElementById('error_message');
             if (!message) {
-                errorMessage.innerText = '모르는게 생기면 나한테 물어봐.';
+                alert("메시지를 입력해주세요.");
                 return;
             }
-            errorMessage.innerText = '';
-
+        
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `/api/chchat_message/?message=${encodeURIComponent(message)}`, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
                     const chatContainer = document.querySelector('.chat-container');
-
+        
+                    // 사용자 메시지 추가
                     const userMessage = document.createElement('div');
                     userMessage.className = 'message right';
                     userMessage.innerText = message;
                     chatContainer.appendChild(userMessage);
-
+        
+                    // AI 메시지 추가
                     const aiMessage = document.createElement('div');
                     aiMessage.className = 'message left';
                     aiMessage.innerHTML = `
@@ -244,19 +266,18 @@
                             <img src="{% static 'imgs/7.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
-                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.tts_url}')"/>
+                        <img src="{% static 'imgs/5-1.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="toggleMessageAudio('${data.tts_url}', this)"/>
                     `;
                     chatContainer.appendChild(aiMessage);
-
+        
                     document.getElementById('chat_input').value = '';
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
-                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                    alert(`Error: ${xhr.status}`);
                 }
             };
             xhr.send();
         }
-
         document.getElementById('voice_button').addEventListener('click', startSpeechRecognition);
         document.getElementById('send_btn').addEventListener('click', sendMessage);
         document.getElementById('chat_input').addEventListener('keydown', function (event) {
@@ -264,11 +285,6 @@
                 sendMessage();
             }
         });
-        function playMessageAudio(url) {
-            console.log("재생할 음성 파일 URL:", url);
-            const audio = new Audio(url);
-            audio.play();
-        }
     </script>
 </body>
 </html>
