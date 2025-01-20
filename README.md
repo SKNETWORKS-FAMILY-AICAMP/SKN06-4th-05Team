@@ -84,9 +84,9 @@ pip install -r requirements.txt
 
 ###  화면 설계서
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/sw_engineering/%ED%99%94%EB%A9%B4%20%EC%84%A4%EA%B3%84%EC%84%9C/%ED%99%94%EB%A9%B4%EC%84%A4%EA%B3%84%EC%84%9C_diagram.jpg" alt="image" width="600" height="800"/>
+<img src= "https://github.com/user-attachments/assets/412861ec-6ada-4657-b280-256149013501" alt="image" width="600" height="800"/>
 <br>
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/sw_engineering/%ED%99%94%EB%A9%B4%20%EC%84%A4%EA%B3%84%EC%84%9C/%ED%99%94%EB%A9%B4%EC%84%A4%EA%B3%84%EC%84%9C_img.jpg" alt="image" width="600" height="800"/>
+<img src= "https://github.com/user-attachments/assets/c9751779-e10c-4539-92c9-cab02ddc46a2" alt="image" width="600" height="800"/>
 
 
 ###  시스템 구성도
