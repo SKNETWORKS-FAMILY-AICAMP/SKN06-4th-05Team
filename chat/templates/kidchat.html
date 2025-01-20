@@ -181,28 +181,6 @@
         <button id="send_btn"></button>
     </div>
     <script>
-        let audio;
-        let isPlaying = false;
-        function toggleMessageAudio(url, imgElement) {
-            if (audio && isPlaying) {
-                audio.pause();
-                audio.currentTime = 0;
-                isPlaying = false;
-                imgElement.src = "{% static 'imgs/5-1.png' %}";
-                return;
-            }
-
-            audio = new Audio(url);
-            audio.play();
-            isPlaying = true;
-            imgElement.src = "{% static 'imgs/5.png' %}";
-
-            audio.onended = () => {
-                isPlaying = false;
-                imgElement.src = "{% static 'imgs/5-1.png' %}";
-            };
-        }
-
         function startSpeechRecognition() {
             const errorMessage = document.getElementById('error_message');
             errorMessage.innerText = '';
@@ -237,6 +215,8 @@
 
             recognition.start();
         }
+        let audio = null;
+        let isPlaying = false;
         function sendMessage() {
             const message = document.getElementById('chat_input').value;
             const errorMessage = document.getElementById('error_message');
@@ -244,32 +224,38 @@
                 alert("메시지를 입력해주세요.");
                 return;
             }
-        
+
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `/api/chchat_message/?message=${encodeURIComponent(message)}`, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
                     const chatContainer = document.querySelector('.chat-container');
-        
+
                     // 사용자 메시지 추가
                     const userMessage = document.createElement('div');
                     userMessage.className = 'message right';
                     userMessage.innerText = message;
                     chatContainer.appendChild(userMessage);
-        
+
                     // AI 메시지 추가
                     const aiMessage = document.createElement('div');
                     aiMessage.className = 'message left';
+                    const megaphoneId = `megaphone-${Date.now()}`;
                     aiMessage.innerHTML = `
                         <div class="profile">
                             <img src="{% static 'imgs/7.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
-                        <img src="{% static 'imgs/5-1.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="toggleMessageAudio('${data.tts_url}', this)"/>
+                        <img src="{% static 'imgs/5-1.png' %}" alt="Megaphone Icon" class="megaphone-icon" id="${megaphoneId}"/>
                     `;
                     chatContainer.appendChild(aiMessage);
-        
+
+                    document.getElementById(megaphoneId).addEventListener('click', function () {
+                        const imgElement = document.getElementById(megaphoneId);
+                        playMessageAudio(data.response, imgElement);
+                    });
+
                     document.getElementById('chat_input').value = '';
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
@@ -285,6 +271,50 @@
                 sendMessage();
             }
         });
+        function playMessageAudio(message, imgElement) {
+            console.log("TTS 생성 요청 메시지:", message);
+
+            // 기존 Audio 객체가 재생 중이면 정지
+            if (audio && isPlaying) {
+                audio.pause();
+                audio.currentTime = 0;
+                isPlaying = false;
+                imgElement.src = "{% static 'imgs/5-1.png' %}"; // 정지 아이콘
+                return;
+            }
+
+            // 서버에 TTS 요청
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `/api/mktts/?message=${encodeURIComponent(message)}`, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.tts_url) {
+                        console.log("생성된 TTS 파일 URL:", data.tts_url);
+
+                        // 새로운 Audio 객체 생성 및 재생
+                        audio = new Audio(data.tts_url);
+                        audio.play();
+                        isPlaying = true;
+                        imgElement.src = "{% static 'imgs/5.png' %}"; // 재생 아이콘
+
+                        // 재생 종료 시 상태 초기화
+                        audio.onended = () => {
+                            isPlaying = false;
+                            imgElement.src = "{% static 'imgs/5-1.png' %}"; // 정지 아이콘
+                        };
+                    } else {
+                        alert("TTS 파일 생성에 실패했습니다.");
+                    }
+                } else {
+                    alert(`TTS API 호출 실패: ${xhr.status}`);
+                }
+            };
+            xhr.onerror = function () {
+                alert("TTS 요청 중 오류가 발생했습니다.");
+            };
+            xhr.send();
+        }
     </script>
 </body>
 </html>
