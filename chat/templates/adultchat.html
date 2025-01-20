@@ -215,28 +215,28 @@
 
             recognition.start();
         }
-
         function sendMessage() {
             const message = document.getElementById('chat_input').value;
             const errorMessage = document.getElementById('error_message');
             if (!message) {
-                errorMessage.innerText = '모르는게 생기면 질문을 해주시오.';
+                alert("메시지를 입력해주세요.");
                 return;
             }
-            errorMessage.innerText = '';
-
+        
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `/api/adchat_message/?message=${encodeURIComponent(message)}`, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
                     const chatContainer = document.querySelector('.chat-container');
-
+        
+                    // 사용자 메시지 추가
                     const userMessage = document.createElement('div');
                     userMessage.className = 'message right';
                     userMessage.innerText = message;
                     chatContainer.appendChild(userMessage);
-
+        
+                    // AI 메시지 추가
                     const aiMessage = document.createElement('div');
                     aiMessage.className = 'message left';
                     aiMessage.innerHTML = `
@@ -244,14 +244,18 @@
                             <img src="{% static 'imgs/6.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
+<<<<<<< HEAD
+                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.tts_url}')"/>
+=======
                         <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.url}')"/>
+>>>>>>> 77df050c25f6fcaa3e80f33f246aba948272bcfe
                     `;
                     chatContainer.appendChild(aiMessage);
-
+        
                     document.getElementById('chat_input').value = '';
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
-                    alert(`Error code: ${xhr.status}, Error Msg: ${xhr.statusText}`);
+                    alert(`Error: ${xhr.status}`);
                 }
             };
             xhr.send();
@@ -264,7 +268,11 @@
             }
         });
         function playMessageAudio(url) {
+<<<<<<< HEAD
+            console.log("재생할 음성 파일 URL:", url);
+=======
             console.log("url > ", url);
+>>>>>>> 77df050c25f6fcaa3e80f33f246aba948272bcfe
             const audio = new Audio(url);
             audio.play();
         }
