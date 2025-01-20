@@ -1,33 +1,8 @@
-import os
-import time
 from gtts import gTTS
 from pydub import AudioSegment
 import speech_recognition as sr
 from pydub.effects import speedup
-from django.conf import settings
-
-from langchain_chroma import Chroma
-from langchain_core.runnables import RunnableLambda, RunnablePassthrough
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from langchain_core.output_parsers import StrOutputParser
-from langchain.memory import ConversationSummaryBufferMemory
-from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-
-from dotenv import load_dotenv
-load_dotenv()
-
-CHUNK_SIZE = 1000
-CHUNK_OVERLAP = 0
-MODEL_NAME  = 'gpt-4o-mini'
-EMBEDDING_NAME = 'text-embedding-3-large'
-COLLECTION_NAME = 'korean_history'
-PERSIST_DIRECTORY= 'vector_store/korean_history_db'
-
-splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(model_name=MODEL_NAME, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)
-embedding_model = OpenAIEmbeddings(model=EMBEDDING_NAME)
-vector_store = Chroma(collection_name=COLLECTION_NAME, persist_directory=PERSIST_DIRECTORY, embedding_function=embedding_model)
-retriever = vector_store.as_retriever(search_type="mmr")
 
 def adprom():
     '''성인 prompt'''
@@ -281,19 +256,6 @@ def chprom():
         ])
     return prompt_template
 
-def mkchain(isadult=True, ischild=False):
-    if isadult:
-        template = adprom()
-    elif ischild:
-        template = chprom()
-    
-    model = ChatOpenAI(model=MODEL_NAME)
-    memory = ConversationSummaryBufferMemory(llm=model, max_token_limit=200, return_messages=True, memory_key="history")
-    def load_history(input):
-        return memory.load_memory_variables({})["history"]
-    chain = RunnableLambda(lambda x:x['question']) | {"context": retriever, "question":RunnablePassthrough() , "history": RunnableLambda(load_history)}  | template | model | StrOutputParser()
-    return chain
-
 def STT():
     recognizer = sr.Recognizer()
     while True:
@@ -304,7 +266,7 @@ def STT():
             audio = recognizer.listen(source)
             try:
                 data = recognizer.recognize_google(audio, language="ko")
-                print(data) #
+                print(data)
                 if data:
                     return data
             except sr.UnknownValueError:
@@ -323,24 +285,3 @@ def saveTTS(text, file_path):
     except Exception as e:
         print(f"TTS 생성 중 오류 발생: {e}")
         raise e
-
-def running():
-    while True:
-        num = int(input("1: 음성 인식 2: 직접 입력 > "))
-        if num == 1:
-            query = STT()
-        elif num == 2:
-            query = input("질문을 입력하세요(종료: exit) > ")
-        
-        if query == "exit" or "종료":
-            break
-        elif len(query) > 3:
-            break
-    # query = "도시락 폭탄을 던진 사람은 누구인가요?"
-    chain = mkchain(True, False)
-    text = chain.invoke({"question": query})
-    print(text)
-    # TTS(text)
-
-if __name__ == "__main__":
-    running()
