@@ -81,7 +81,11 @@
 
     <!-- 배경 위에서 아래로 펼쳐지는 이미지 -->
     <div class="background-reveal" id="backgroundReveal"></div>
-
+    <!-- 오디오 요소 추가 -->
+    <audio id="backgroundAudio" autoplay>
+        <source src="{% static 'audio/main.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     <script>
         // 캐릭터 클릭 이벤트
         document.getElementById("character").addEventListener("click", function() {
@@ -96,6 +100,14 @@
                 window.location.href = "{% url 'home' %}"; // 다음 페이지로 이동
             }, 3000); // 애니메이션 지속 시간 후 페이지 이동 (3초)
         });
+            // 오디오 멈추는 함수 정의
+            function stopAudio() {
+            const audio = document.getElementById('backgroundAudio');
+            if (audio) {
+                audio.pause(); // 오디오 일시 정지
+                audio.currentTime = 0; // 오디오 위치 초기화
+            }
+        }
     </script>
     
 </body>
