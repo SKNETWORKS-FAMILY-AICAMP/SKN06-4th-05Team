@@ -226,7 +226,7 @@
             errorMessage.innerText = '';
 
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/adchat_message/' + encodeURIComponent(message), true);
+            xhr.open('GET', `/api/adchat_message/?message=${encodeURIComponent(message)}`, true);
             xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
@@ -244,7 +244,7 @@
                             <img src="{% static 'imgs/6.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
-                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="return false;"/>
+                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.url}')"/>
                     `;
                     chatContainer.appendChild(aiMessage);
 
@@ -256,7 +256,6 @@
             };
             xhr.send();
         }
-
         document.getElementById('voice_button').addEventListener('click', startSpeechRecognition);
         document.getElementById('send_btn').addEventListener('click', sendMessage);
         document.getElementById('chat_input').addEventListener('keydown', function (event) {
@@ -264,6 +263,11 @@
                 sendMessage();
             }
         });
+        function playMessageAudio(url) {
+            console.log("url > ", url);
+            const audio = new Audio(url);
+            audio.play();
+        }
     </script>
 </body>
 </html>
