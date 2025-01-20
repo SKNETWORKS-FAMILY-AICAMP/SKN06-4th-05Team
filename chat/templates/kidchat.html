@@ -244,7 +244,11 @@
                             <img src="{% static 'imgs/7.png' %}" alt="AI 프로필">
                         </div>
                         <div class="content">${data.response}</div>
+<<<<<<< HEAD
                         <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.tts_url}')"/>
+=======
+                        <img src="{% static 'imgs/5.png' %}" alt="Megaphone Icon" class="megaphone-icon" onclick="playMessageAudio('${data.url}')"/>
+>>>>>>> 77df050c25f6fcaa3e80f33f246aba948272bcfe
                     `;
                     chatContainer.appendChild(aiMessage);
 
@@ -256,7 +260,6 @@
             };
             xhr.send();
         }
-
         document.getElementById('voice_button').addEventListener('click', startSpeechRecognition);
         document.getElementById('send_btn').addEventListener('click', sendMessage);
         document.getElementById('chat_input').addEventListener('keydown', function (event) {
@@ -265,7 +268,11 @@
             }
         });
         function playMessageAudio(url) {
+<<<<<<< HEAD
             console.log("재생할 음성 파일 URL:", url);
+=======
+            console.log("url > ", url);
+>>>>>>> 77df050c25f6fcaa3e80f33f246aba948272bcfe
             const audio = new Audio(url);
             audio.play();
         }
