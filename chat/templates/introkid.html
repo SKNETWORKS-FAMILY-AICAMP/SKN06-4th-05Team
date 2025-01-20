@@ -146,7 +146,23 @@
         <p class="large-text">친구야 같이 역사 공부하자<br>
         모르는게 생기면 물어봐줘<br></p>
         <p>나는 사건과 인물에 관해서 잘 알고 있어<br>
-        "이순신 장군님에 대해 알려줘", "1948년에 일어난 사건을 알려줘"와 같이 질문하면 돼</p>
+        "이순신 장군에 대해 알려줘", "1948년에 일어난 사건에 대해 알려줘"와 같이 질문하면 돼</p>
     </div>
+
+    <!-- 오디오 요소 추가 -->
+    <audio id="backgroundAudio" autoplay>
+        <source src="{% static 'audio/kid.mp3' %}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // 오디오 멈추는 함수 정의
+        function stopAudio() {
+            const audio = document.getElementById('backgroundAudio');
+            if (audio) {
+                audio.pause(); // 오디오 일시 정지
+                audio.currentTime = 0; // 오디오 위치 초기화
+            }
+        }
+    </script>
 </body>
-</html>
