@@ -77,7 +77,7 @@ pip install -r requirements.txt
 
 ###  화면 설계서
 
-<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%ED%99%94%EB%A9%B4%20%EC%84%A4%EA%B3%84%EC%84%9C/%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8%20(1).jpg" alt="image" width="600" height="800"/>
+<img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%ED%99%94%EB%A9%B4%20%EC%84%A4%EA%B3%84%EC%84%9C/%ED%99%94%EB%A9%B4%EC%84%A4%EA%B3%84%EC%84%9C_diagram.jpg" alt="image" width="600" height="800"/>
 <br>
 <img src="https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN06-4th-05Team/blob/main/%ED%99%94%EB%A9%B4%20%EC%84%A4%EA%B3%84%EC%84%9C/%ED%99%94%EB%A9%B4%EC%84%A4%EA%B3%84%EC%84%9C_img.jpg" alt="image" width="600" height="800"/>
 
