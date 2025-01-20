@@ -15,6 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path, include
 from django.views.generic import TemplateView
 
@@ -26,5 +28,5 @@ urlpatterns = [
     path('chat1/', TemplateView.as_view(template_name='kidchat.html'), name='chat1'), 
     path('chat2/', TemplateView.as_view(template_name='adultchat.html'), name='chat2'),
     path('api/', include('api.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # http://127.0.0.1:8000
