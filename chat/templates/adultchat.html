@@ -143,26 +143,27 @@
         }
 
         #error_message {
-            color: rgb(74, 124, 233);
+            color: rgb(0, 41, 130);
             text-align: center;
             margin-top: 10px;
+            font-size: 20px; /* 원하는 글씨 크기 */
         }
-    /* 화살표 스타일 */
-    .arrow-buttons {
-        position: absolute;
-        top: 5%; /* 상단에 배치 */
-        left: 3%; 
-        width: 90%;
-        display: flex;
-        justify-content: space-between;  /* 양쪽에 여백 대신 가운데로 배치 */
-        padding: 0 40px; /* 양쪽에 적당한 여백 추가 */
-    }
 
-    .arrow-buttons img {
-        width: 50px; /* 화살표 이미지 크기 조정 */
-        height: auto;
-    }
+        /* 화살표 스타일 */
+        .arrow-buttons {
+            position: absolute;
+            top: 5%;
+            left: 3%;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
 
+        .arrow-buttons img {
+            width: 50px;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -215,8 +216,10 @@
 
             recognition.start();
         }
+
         let audio = null;
         let isPlaying = false;
+
         function sendMessage() {
             const message = document.getElementById('chat_input').value;
             const errorMessage = document.getElementById('error_message');
@@ -251,11 +254,13 @@
                     `;
                     chatContainer.appendChild(aiMessage);
 
+                    // 메가폰 클릭 시 playMessageAudio 호출
                     document.getElementById(megaphoneId).addEventListener('click', function () {
                         const imgElement = document.getElementById(megaphoneId);
                         playMessageAudio(data.response, imgElement);
                     });
 
+                    // 입력창 비우고 스크롤 맨 아래로
                     document.getElementById('chat_input').value = '';
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } else {
@@ -264,6 +269,7 @@
             };
             xhr.send();
         }
+
         document.getElementById('voice_button').addEventListener('click', startSpeechRecognition);
         document.getElementById('send_btn').addEventListener('click', sendMessage);
         document.getElementById('chat_input').addEventListener('keydown', function (event) {
@@ -271,49 +277,74 @@
                 sendMessage();
             }
         });
+
+        // 수정된 함수
         function playMessageAudio(message, imgElement) {
             console.log("TTS 생성 요청 메시지:", message);
+            const errorMessage = document.getElementById('error_message');
 
-            // 기존 Audio 객체가 재생 중이면 정지
-            if (audio && isPlaying) {
-                audio.pause();
-                audio.currentTime = 0;
-                isPlaying = false;
-                imgElement.src = "{% static 'imgs/5-1.png' %}"; // 정지 아이콘
-                return;
-            }
+            // 만약 아직 TTS 생성 URL이 없다면(최초 클릭)
+            if (!imgElement.dataset.ttsUrl) {
+                // 1) 음성 생성 중 표시
+                errorMessage.innerText = '음성 생성 중...';
 
-            // 서버에 TTS 요청
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', `/api/mktts/?message=${encodeURIComponent(message)}`, true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    const data = JSON.parse(xhr.responseText);
-                    if (data.tts_url) {
-                        console.log("생성된 TTS 파일 URL:", data.tts_url);
+                // 2) 서버에 TTS 요청
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/api/mktts/?message=${encodeURIComponent(message)}`, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const data = JSON.parse(xhr.responseText);
+                        if (data.tts_url) {
+                            console.log("생성된 TTS 파일 URL:", data.tts_url);
 
-                        // 새로운 Audio 객체 생성 및 재생
-                        audio = new Audio(data.tts_url);
-                        audio.play();
-                        isPlaying = true;
-                        imgElement.src = "{% static 'imgs/5.png' %}"; // 재생 아이콘
+                            // 3) 음성 생성 완료 문구 표시
+                            errorMessage.innerText = '음성 생성이 완료되었습니다. (다시 클릭 시 재생)';
 
-                        // 재생 종료 시 상태 초기화
-                        audio.onended = () => {
+                            // 4) TTS URL을 메가폰 요소에 저장 (data-* 속성)
+                            imgElement.dataset.ttsUrl = data.tts_url;
+
+                            // 재생 상태는 false로
                             isPlaying = false;
-                            imgElement.src = "{% static 'imgs/5-1.png' %}"; // 정지 아이콘
-                        };
+                            imgElement.src = "{% static 'imgs/5-1.png' %}"; // 재생전 아이콘
+                        } else {
+                            alert("TTS 파일 생성에 실패했습니다.");
+                            errorMessage.innerText = ''; // 실패 시 메시지 제거
+                        }
                     } else {
-                        alert("TTS 파일 생성에 실패했습니다.");
+                        alert(`TTS API 호출 실패: ${xhr.status}`);
+                        errorMessage.innerText = ''; // 실패 시 메시지 제거
                     }
+                };
+                xhr.onerror = function () {
+                    alert("TTS 요청 중 오류가 발생했습니다.");
+                    errorMessage.innerText = ''; // 오류 시 메시지 제거
+                };
+                xhr.send();
+            } else {
+                // 이미 TTS 생성이 끝났고 URL이 저장된 상태에서 다시 클릭하면 → 재생/정지
+                if (!isPlaying) {
+                    // 재생 시작
+                    audio = new Audio(imgElement.dataset.ttsUrl);
+                    audio.play();
+                    isPlaying = true;
+                    imgElement.src = "{% static 'imgs/5.png' %}"; // 재생 중 아이콘
+                    errorMessage.innerText = ''; // 재생 시작 시 문구 제거
+
+                    // 재생이 끝나면 상태 초기화
+                    audio.onended = function () {
+                        isPlaying = false;
+                        imgElement.src = "{% static 'imgs/5-1.png' %}"; // 재생 전 아이콘
+                    };
                 } else {
-                    alert(`TTS API 호출 실패: ${xhr.status}`);
+                    // 현재 재생 중이면 정지
+                    if (audio) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                    isPlaying = false;
+                    imgElement.src = "{% static 'imgs/5-1.png' %}";
                 }
-            };
-            xhr.onerror = function () {
-                alert("TTS 요청 중 오류가 발생했습니다.");
-            };
-            xhr.send();
+            }
         }
     </script>
 </body>
