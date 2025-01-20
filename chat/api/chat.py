@@ -1,8 +1,10 @@
-import pygame
+import os
+import time
 from gtts import gTTS
 from pydub import AudioSegment
 import speech_recognition as sr
 from pydub.effects import speedup
+from django.conf import settings
 
 from langchain_chroma import Chroma
 from langchain_core.runnables import RunnableLambda, RunnablePassthrough
@@ -310,19 +312,28 @@ def STT():
             except sr.RequestError:
                 print("실패. 다시 시도해 주세요.")
 
-def TTS(text):
-    tts = gTTS(text=text, lang='ko')
-    tts.save("tts.mp3")
-    audio = AudioSegment.from_mp3("tts.mp3")
-    new_file = speedup(audio, 1.3, 150)
-    new_file.export("ftts.mp3", format="mp3")
-    print(text)
-    pygame.mixer.init()
-    pygame.mixer.music.load('ftts.mp3')
-    pygame.mixer.music.play()
+def saveTTS(text):
+    try:
+        print(f"TTS 생성 시작: {text}")
+        timestamp = int(time.time())  # 타임스탬프를 고유 값으로 사용
+        file_name = f"ftts_{timestamp}.mp3"
+        file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+        
+        # TTS 생성 및 저장
+        tts = gTTS(text=text, lang='ko')
+        tts.save(file_path)
+        print(f"TTS 저장 완료: {file_path}")
 
-    while pygame.mixer.music.get_busy():
-        pygame.time.Clock().tick(10)
+        # 파일 변환 및 속도 조정
+        audio = AudioSegment.from_mp3(file_path)
+        new_file = speedup(audio, 1.3, 150)
+        new_file.export(file_path, format="mp3")
+        print(f"최종 TTS 파일 저장 완료: {file_path}")
+
+        return file_name  # 파일 이름 반환
+    except Exception as e:
+        print(f"TTS 생성 중 오류 발생: {e}")
+        return None
 
 def running():
     while True:
